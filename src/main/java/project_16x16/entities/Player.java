@@ -64,7 +64,7 @@ public final class Player extends EditableObject {
 		WALK, IDLE, JUMP, LAND, FALL, ATTACK, DASH, DASH_ATTACK
 	}
 
-	private PlayerState state;
+	private EntityState state;
 
 	static {
 		playerAnimationSequences = new HashMap<ACTION, ArrayList<PImage>>();
@@ -105,7 +105,7 @@ public final class Player extends EditableObject {
 		width = 14 * 4;
 		height = 16 * 4;
 
-		state = new PlayerState();
+		state = new EntityState();
 
 		setAnimation(ACTION.IDLE);
 		this.isMultiplayerPlayer = isMultiplayerPlayer;
@@ -193,7 +193,7 @@ public final class Player extends EditableObject {
 		return velocity.copy();
 	}
 
-	public PlayerState getState() {
+	public EntityState getState() {
 		return state;
 	}
 
@@ -416,24 +416,6 @@ public final class Player extends EditableObject {
 		}
 		animation.ended = false;
 		animation.name = anim.name();
-	}
-
-	public class PlayerState {
-		public boolean flying;
-		public boolean attacking;
-		public boolean dashing;
-		public int facingDir;
-		public boolean landing;
-		public boolean jumping;
-
-		PlayerState() {
-			flying = false;
-			attacking = false;
-			dashing = false;
-			facingDir = RIGHT;
-			jumping = false;
-			landing = false;
-		}
 	}
 
 	@Override

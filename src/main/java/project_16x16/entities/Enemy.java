@@ -21,36 +21,38 @@ import project_16x16.scene.GameplayScene;
  */
 public class Enemy extends CollidableObject {
 
+	private static final int OUT_OF_BOUNDS_DISTANCE = 2000;
+
 	private PImage image;
-
-	float gravity;
-
 	final PVector velocity = new PVector(0, 0);
 
-	private static final int collisionRange = 145;
+	public int health;
+	float gravity;
 
 	final int speedWalk;
-	private final int speedJump;
+	final int speedJump;
 
-	public int health;
+	private final int collisionRange;
 
-	EnemyState enemyState;
+	EntityState enemyState;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param sideScroller SideScroller game controller.
 	 */
-	public Enemy(SideScroller sideScroller, GameplayScene gameplayScene) {
+	public Enemy(SideScroller sideScroller, GameplayScene gameplayScene, int health, float gravity, int speedWalk, int speedJump,
+				 int width, int height, int collisionRange) {
 		super(sideScroller, gameplayScene);
-		gravity = 1;
 		image = Tileset.getTile(0, 258, 14, 14, 4);
-		health = 2;
-		speedWalk = 7;
-		speedJump = 18;
-		width = 14 * 4;
-		height = 10 * 4;
-		enemyState = new EnemyState();
+		this.health = health; //2
+		this.gravity = gravity; //1
+		this.speedWalk = speedWalk; //7
+		this.speedJump = speedJump; //18
+		this.width = width;
+		this.height = height;
+		this.collisionRange = collisionRange;
+		enemyState = new EntityState();
 	}
 
 	/**
@@ -85,10 +87,8 @@ public class Enemy extends CollidableObject {
 			enemyState.flying = true;
 		}
 		position.add(velocity);
-		if (position.y > 2000) { // out of bounds check
+		if (position.y > OUT_OF_BOUNDS_DISTANCE) { // out of bounds check
 			// Destroy(gameObject);
-		}
-		if (applet.isKeyDown(KeyEvent.VK_9)) {
 		}
 		if (applet.debug == DebugType.ALL) {
 			applet.noFill();
@@ -102,11 +102,11 @@ public class Enemy extends CollidableObject {
 		return velocity.copy();
 	}
 
-	public EnemyState getState() {
+	public EntityState getState() {
 		return enemyState;
 	}
 
-	private void checkEnemyCollision() {
+	protected void checkEnemyCollision() {
 		for (EditableObject o : gameplayScene.objects) {
 			if (o.equals(this)) {
 				continue;
@@ -161,58 +161,19 @@ public class Enemy extends CollidableObject {
 	 * @param collision The other object
 	 * @return boolean if it has or has not collided with the object.
 	 */
-	private boolean collides(CollidableObject collision) {
-		return (position.x + width / 2 > collision.position.x - collision.width / 2
-				&& position.x - width / 2 < collision.position.x + collision.width / 2)
-				&& (position.y + height / 2 > collision.position.y - collision.height / 2
-						&& position.y - height / 2 < collision.position.y + collision.height / 2);
-	}
 
-	// TODO: optimize these (unused)
-	private boolean collidesEqual(CollidableObject collision) {
-		return (position.x + width / 2 >= collision.position.x - collision.width / 2
-				&& position.x - width / 2 <= collision.position.x + collision.width / 2)
-				&& (position.y + height / 2 >= collision.position.y - collision.height / 2
-						&& position.y - height / 2 <= collision.position.y + collision.height / 2);
-	}
-
-	private boolean collidesFutur(CollidableObject collision) {
-		return (position.x + velocity.x + width / 2 > collision.position.x - collision.width / 2
-				&& position.x + velocity.x - width / 2 < collision.position.x + collision.width / 2)
-				&& (position.y + velocity.y + height / 2 > collision.position.y - collision.height / 2
-						&& position.y + velocity.y - height / 2 < collision.position.y + collision.height / 2);
-	}
-
-	private boolean collidesFuturX(CollidableObject collision) {
+	protected boolean collidesFuturX(CollidableObject collision) {
 		return (position.x + velocity.x + width / 2 > collision.position.x - collision.width / 2
 				&& position.x + velocity.x - width / 2 < collision.position.x + collision.width / 2)
 				&& (position.y + 0 + height / 2 > collision.position.y - collision.height / 2
 						&& position.y + 0 - height / 2 < collision.position.y + collision.height / 2);
 	}
 
-	private boolean collidesFuturY(CollidableObject collision) {
+	protected boolean collidesFuturY(CollidableObject collision) {
 		return (position.x + 0 + width / 2 > collision.position.x - collision.width / 2
 				&& position.x + 0 - width / 2 < collision.position.x + collision.width / 2)
 				&& (position.y + velocity.y + height / 2 > collision.position.y - collision.height / 2
 						&& position.y + velocity.y - height / 2 < collision.position.y + collision.height / 2);
-	}
-
-	public class EnemyState {
-		public boolean flying;
-		public boolean attacking;
-		public boolean dashing;
-		public int facingDir;
-		public boolean landing;
-		public boolean jumping;
-
-		EnemyState() {
-			flying = false;
-			attacking = false;
-			dashing = false;
-			facingDir = RIGHT;
-			jumping = false;
-			landing = false;
-		}
 	}
 
 	@Override

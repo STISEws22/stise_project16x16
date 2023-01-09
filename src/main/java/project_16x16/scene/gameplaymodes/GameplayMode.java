@@ -1,77 +1,44 @@
 package project_16x16.scene.gameplaymodes;
 
-import processing.core.PImage;
-import processing.core.PVector;
-import processing.event.KeyEvent;
-import processing.event.MouseEvent;
 import project_16x16.entities.Player;
 import project_16x16.objects.EditableObject;
+import project_16x16.objects.GameObject;
 import project_16x16.scene.GameplayScene;
 import project_16x16.scene.GameplayScene.GameModes;
 
-public abstract class GameplayMode {
+public class GameplayMode extends GameMode {
 
-	protected GameplayScene scene;
+	private Player localPlayer;
 
-	public GameplayMode(GameplayScene gameplayScene) {
-		this.scene = gameplayScene;
+	public GameplayMode(GameplayScene gameplayScene, Player localPlayer) {
+		super(gameplayScene);
+		this.localPlayer = localPlayer;
 	}
-
+	
+	@Override
 	public void enter() {
+		scene.setZoomable(true);
 	}
 
-	public void displayWorldEdit() {
+	@Override
+	public GameModes getModeType() {
+		return GameModes.PLAY;
 	}
 
+	@Override
 	public void updateEditableObject(EditableObject object) {
+		if (object instanceof GameObject) {
+			((GameObject) object).update();
+		}
 	}
-
-	public void displayDestination() {
-	}
-
+	
+	@Override
 	public void updateLocalPlayer(Player localPlayer) {
+		localPlayer.update();
 	}
 
-	public void displayGUISlots() {
-		scene.displayGUISlots();
-	}
-
-	public void updateGUIButton(int xAnchor, PImage activeIcon, PImage inactiveIcon, GameModes mode, boolean isHighlighted) {
-		if (getModeType().equals(mode)) {
-			drawGUIButton(activeIcon, xAnchor, 120);
-		}
-		else if (isNotInvalidGUIButtonMode() && isHighlighted) {
-			if (scene.applet.mousePressEvent) {
-				scene.changeMode(mode);
-			}
-			drawGUIButton(activeIcon, xAnchor, 120);
-		}
-		else {
-			drawGUIButton(inactiveIcon, xAnchor, 120);
-		}
-	}
-
-	protected boolean isNotInvalidGUIButtonMode() {
-		return true;
-	}
-
-	protected void drawGUIButton(PImage icon, int x, int y) {
-		scene.image(icon, x, y);
-	}
-
-	public abstract GameModes getModeType();
-
+	@Override
 	public void updateGUI() {
+		localPlayer.displayLife();
 	}
-
-	public void mouseDraggedEvent(MouseEvent event, PVector origPos, PVector mouseDown) {
-	}
-
-	public void mouseWheelEvent(MouseEvent event) {
-	}
-
-	public void keyReleasedEvent(KeyEvent event) {
-		scene.switchModeOnKeyEvent(event);
-	}
-
 }

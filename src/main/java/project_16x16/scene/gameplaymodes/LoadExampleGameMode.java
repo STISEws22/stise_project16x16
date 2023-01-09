@@ -5,7 +5,7 @@ import project_16x16.scene.GameplayScene.GameModes;
 import project_16x16.ui.Tab;
 import project_16x16.windows.LoadLevelWindow;
 
-public class LoadExampleGameMode extends GameplayMode {
+public class LoadExampleGameMode extends GameMode {
 
 	public LoadExampleGameMode(GameplayScene gameplayScene) {
 		super(gameplayScene);

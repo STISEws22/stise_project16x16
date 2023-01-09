@@ -5,7 +5,7 @@ import project_16x16.scene.GameplayScene.GameModes;
 import project_16x16.ui.Tab;
 import project_16x16.windows.ImportLevelWindow;
 
-public class ImportGameMode extends GameplayMode {
+public class ImportGameMode extends GameMode {
 
 	public ImportGameMode(GameplayScene gameplayScene) {
 		super(gameplayScene);

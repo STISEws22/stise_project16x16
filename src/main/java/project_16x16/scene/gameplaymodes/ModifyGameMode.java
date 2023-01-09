@@ -9,7 +9,7 @@ import project_16x16.objects.EditorItem;
 import project_16x16.scene.GameplayScene;
 import project_16x16.scene.GameplayScene.GameModes;
 
-public class ModifyGameMode extends GameplayMode {
+public class ModifyGameMode extends GameMode {
 
 	private EditorItem editorItem;
 

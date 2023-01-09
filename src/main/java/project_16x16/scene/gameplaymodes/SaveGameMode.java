@@ -6,7 +6,7 @@ import project_16x16.scene.GameplayScene.GameModes;
 import project_16x16.ui.Tab;
 import project_16x16.windows.SaveLevelWindow;
 
-public class SaveGameMode extends GameplayMode {
+public class SaveGameMode extends GameMode {
 
 	public SaveGameMode(GameplayScene gameplayScene) {
 		super(gameplayScene);

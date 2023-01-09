@@ -29,13 +29,13 @@ import project_16x16.objects.EditableObject;
 import project_16x16.objects.EditorItem;
 import project_16x16.objects.GameObject;
 import project_16x16.projectiles.ProjectileObject;
-import project_16x16.scene.gameplaymodes.GameplayMode;
+import project_16x16.scene.gameplaymodes.GameMode;
 import project_16x16.scene.gameplaymodes.ImportGameMode;
 import project_16x16.scene.gameplaymodes.InventoryGameMode;
 import project_16x16.scene.gameplaymodes.LoadExampleGameMode;
 import project_16x16.scene.gameplaymodes.ModifyGameMode;
 import project_16x16.scene.gameplaymodes.MoveGameMode;
-import project_16x16.scene.gameplaymodes.PlayGameMode;
+import project_16x16.scene.gameplaymodes.GameplayMode;
 import project_16x16.scene.gameplaymodes.SaveGameMode;
 import project_16x16.scene.gameplaymodes.TestGameMode;
 import project_16x16.ui.Anchor;
@@ -95,13 +95,13 @@ public class GameplayScene extends PScene {
 	// Scroll Bar
 	private ScrollBarVertical scrollBar;
 
-	private HashMap<GameModes, GameplayMode> modesMap;
+	private HashMap<GameModes, GameMode> modesMap;
 
 	public enum GameModes {
 		MODIFY, PLAY, INVENTORY, SAVE, IMPORT, LOADEXAMPLE, MOVE, TEST,
 	}
 
-	public GameplayMode currentMode;
+	public GameMode currentMode;
 
 	private ArrayList<String> inventory;
 
@@ -183,7 +183,7 @@ public class GameplayScene extends PScene {
 		// GameplayModes initialization
 		modesMap = new HashMap<>();
 		modesMap.put(GameModes.MODIFY, new ModifyGameMode(this, editorItem));
-		modesMap.put(GameModes.PLAY, new PlayGameMode(this, localPlayer));
+		modesMap.put(GameModes.PLAY, new GameplayMode(this, localPlayer));
 		modesMap.put(GameModes.INVENTORY, new InventoryGameMode(this));
 		modesMap.put(GameModes.SAVE, new SaveGameMode(this));
 		modesMap.put(GameModes.IMPORT, new ImportGameMode(this));
